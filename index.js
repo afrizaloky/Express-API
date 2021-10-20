@@ -10,7 +10,7 @@ app.get("/", function (req, res) {
 });
 
 // GET /check
-app.get("/check", function (req, res) {
+app.get("/api/check", function (req, res) {
   if (!req.query.magnet)
     return res.send({ error: { code: 404, message: "Missing magnet link" } });
 
