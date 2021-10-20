@@ -3,13 +3,10 @@ const router = express.Router();
 const webtorrentHealth = require("webtorrent-health");
 
 /**
- * GET product list.
+ * GET torren health.
  *
- * @return product list | empty.
+ * @return seeder and leecher | empty.
  */
-router.get("/", function (req, res) {
-  res.json({ status: 200 });
-});
 
 // GET /check
 router.get("/check", function (req, res) {
