@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const webtorrentHealth = require("webtorrent-health");
+const parseTorrent = require("parse-torrent");
 
 /**
  * GET torren health.
@@ -20,15 +21,17 @@ router.get("/check", function (req, res) {
     },
     function (err, data) {
       if (err) return res.send({ error: { code: 500, message: err.message } });
+      let info = parseTorrent(req.query.magnet);
 
       result = {
         status: 200,
         result: {
+          name: info.name,
+          hash: info.infoHash,
           seeder: data.seeds,
           leecher: data.peers,
         },
       };
-      // Send results
       res.json(result);
     }
   );
