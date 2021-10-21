@@ -41,9 +41,15 @@ router.get("/convertTime", function (req, res) {
   if (!req.query.second)
     return res.send({ error: { code: 404, message: "Missing magnet link" } });
   d = Number(req.query.second);
-  var h = Math.floor(d / 3600);
-  var m = Math.floor((d % 3600) / 60);
-  var s = Math.floor((d % 3600) % 60);
+  var h = Math.floor(d / 3600)
+    .toString()
+    .padStart(2, "0");
+  var m = Math.floor((d % 3600) / 60)
+    .toString()
+    .padStart(2, "0");
+  var s = Math.floor((d % 3600) % 60)
+    .toString()
+    .padStart(2, "0");
   result = {
     status: 200,
     result: `${h}:${m}:${s}`,
