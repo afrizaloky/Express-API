@@ -40,7 +40,7 @@ router.get("/check", function (req, res) {
 router.get("/convertTime", function (req, res) {
   if (!req.query.second)
     return res.send({ error: { code: 404, message: "Missing magnet link" } });
-  d = Number(second);
+  d = Number(req.query.second);
   var h = Math.floor(d / 3600);
   var m = Math.floor((d % 3600) / 60);
   var s = Math.floor((d % 3600) % 60);
