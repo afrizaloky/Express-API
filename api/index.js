@@ -3,11 +3,10 @@ const router = express.Router();
 const webtorrentHealth = require("webtorrent-health");
 const parseTorrent = require("parse-torrent");
 const requestIp = require("request-ip");
-const fs = require("fs");
-
+// const fs = require("fs");
+const mongodbAPI = require("./mongodb");
 const { MongoClient } = require("mongodb");
-const uri =
-  "mongodb+srv://admin:vwfRrctd4PN6GE6@cluster0.yutki.mongodb.net/expressAPI?retryWrites=true&w=majority";
+const uri = process.env.MONGODB_URI;
 const client = new MongoClient(uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -68,6 +67,8 @@ router.get("/convertTime", function (req, res) {
   };
   res.json(result);
 });
+
+router.get("/mongodb", mongodbAPI);
 
 router.get("/getIP", function (req, res) {
   var clientIp = requestIp.getClientIp(req);
