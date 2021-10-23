@@ -4,7 +4,14 @@ const webtorrentHealth = require("webtorrent-health");
 const parseTorrent = require("parse-torrent");
 const requestIp = require("request-ip");
 const fs = require("fs");
-const { json } = require("express");
+
+const { MongoClient } = require("mongodb");
+const uri =
+  "mongodb+srv://admin:vwfRrctd4PN6GE6@cluster0.yutki.mongodb.net/expressAPI?retryWrites=true&w=majority";
+const client = new MongoClient(uri, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 /**
  * GET torren health.
@@ -42,7 +49,9 @@ router.get("/check", function (req, res) {
 
 router.get("/convertTime", function (req, res) {
   if (!req.query.second)
-    return res.send({ error: { code: 404, message: "Missing magnet link" } });
+    return res.send({
+      error: { code: 404, message: "Missing second argument" },
+    });
   d = Number(req.query.second);
   var h = Math.floor(d / 3600)
     .toString()
@@ -61,8 +70,6 @@ router.get("/convertTime", function (req, res) {
 });
 
 router.get("/getIP", function (req, res) {
-  let rawdata = fs.readFileSync("data.json");
-  let json_data = JSON.parse(rawdata);
   var clientIp = requestIp.getClientIp(req);
   result = {
     status: 200,
@@ -71,8 +78,14 @@ router.get("/getIP", function (req, res) {
       ipAddress: clientIp,
     },
   };
-  json_data.data.push(result);
-  fs.writeFileSync("data.json", JSON.stringify(json_data));
+  client.connect(err => {
+    const collection = client.db("expressAPI").collection("ipAddress");
+    // perform actions on the collection object
+    collection.insertOne(result).then(result => {
+      console.log(result);
+      client.close();
+    });
+  });
   res.json(result);
 });
 

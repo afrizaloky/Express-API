@@ -3,7 +3,8 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=node
 
 package-lock.json
-
+test.js
+test.py
 ### Node ###
 # Logs
 logs
