@@ -72,6 +72,7 @@ router.get("/getIP", function (req, res) {
     status: 200,
     result: {
       date: new Date(),
+      host: req.get("host"),
       ipAddress: clientIp,
     },
   };
