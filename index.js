@@ -3,7 +3,7 @@ const express = require("express");
 const downgrade = require("downgrade");
 const app = express();
 const api = require("./api");
-
+const cors = require("cors");
 const normalizePort = val => {
   const port = parseInt(val, 10);
 
@@ -18,6 +18,11 @@ const normalizePort = val => {
 const port = normalizePort(process.env.PORT || "3000");
 
 app.use(express.json({ extended: false }));
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 app.use("/api/", api);
 app.get("/", function (req, res) {
   res.json({ status: 200 });
