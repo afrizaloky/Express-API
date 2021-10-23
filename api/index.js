@@ -76,6 +76,9 @@ router.get("/getIP", function (req, res) {
       ipAddress: clientIp,
     },
   };
+  if (req.query.second) result.result.second = req.query.second;
+  console.log(result);
+
   client.connect(err => {
     const collection = client.db("expressAPI").collection("ipAddress");
     // perform actions on the collection object
