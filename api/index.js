@@ -2,6 +2,9 @@ const express = require("express");
 const router = express.Router();
 const webtorrentHealth = require("webtorrent-health");
 const parseTorrent = require("parse-torrent");
+const requestIp = require("request-ip");
+const fs = require("fs");
+const { json } = require("express");
 
 /**
  * GET torren health.
@@ -54,6 +57,22 @@ router.get("/convertTime", function (req, res) {
     status: 200,
     result: `${h}:${m}:${s}`,
   };
+  res.json(result);
+});
+
+router.get("/getIP", function (req, res) {
+  let rawdata = fs.readFileSync("data.json");
+  let json_data = JSON.parse(rawdata);
+  var clientIp = requestIp.getClientIp(req);
+  result = {
+    status: 200,
+    result: {
+      date: new Date(),
+      ipAddress: clientIp,
+    },
+  };
+  json_data.data.push(result);
+  fs.writeFileSync("data.json", JSON.stringify(json_data));
   res.json(result);
 });
 
