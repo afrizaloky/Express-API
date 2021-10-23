@@ -22,7 +22,7 @@ app.use("/api/", api);
 app.get("/", function (req, res) {
   res.json({ status: 200 });
 });
-app.listen(config.port, function () {
+app.listen(port, function () {
   console.log("App running on port " + port + "!");
   downgrade();
 });
