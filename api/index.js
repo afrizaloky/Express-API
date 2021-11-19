@@ -9,7 +9,7 @@ const client = new MongoClient(uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
-
+const moment = require("moment"); // require
 /**
  * GET torren health.
  *
@@ -87,6 +87,17 @@ router.get("/getIP", function (req, res) {
       client.close();
     });
   });
+  res.json(result);
+});
+
+router.get("/getTime", function (req, res) {
+  var serverTime = moment(Date.now())
+    .tz("Asia/Jakarta")
+    .format("YYYY/MM/DD HH:mm:ss");
+  result = {
+    status: 200,
+    time: serverTime,
+  };
   res.json(result);
 });
 
