@@ -9,7 +9,8 @@ const client = new MongoClient(uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
-const moment = require("moment"); // require
+const moment = require("moment-timezone");
+
 /**
  * GET torren health.
  *
