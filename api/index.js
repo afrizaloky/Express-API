@@ -11,6 +11,12 @@ const client = new MongoClient(uri, {
 });
 const moment = require("moment-timezone");
 
+const getURL = tmpString => {
+  let code = tmpString.match(/\d+/g)[0];
+  let url = `https://www.scribd.com/embeds/${code}/content`;
+  return url;
+};
+
 /**
  * GET torren health.
  *
@@ -100,6 +106,13 @@ router.get("/getTime", function (req, res) {
     time: serverTime,
   };
   res.json(result);
+});
+
+router.get("/scribd", function (req, res) {
+  if (!req.query.url)
+    return res.send({ error: { code: 404, message: "Missing magnet link" } });
+
+  res.redirect(getURL(req.query.url));
 });
 
 module.exports = router;
